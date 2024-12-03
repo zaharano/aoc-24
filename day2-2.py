@@ -6,24 +6,28 @@ def diffs(r):
         return []
     return [r[1] - r[0]] + diffs(r[1:])
 
-def test_consistency(diffs, fails, dir):
+def test_consistency(report, diffs, fails, dir):
     if diffs == []:
         return True
-    if diffs[0] * dir <= 0:
+    if diffs[0] * dir <= 0 or diffs[0] * dir > 3:
         fails += 1
         if fails > TOLERANCE:
-            return False           
+            return False
+        else: 
+            return test_consistency(report, diffs[1:], fails, dir)
     else:
-        return test_consistency(diffs[1:], fails, dir)
+        return test_consistency(report, diffs[1:], fails, dir)
 
 
-with open("day2data.txt", 'r') as f:
+with open("day2data-test.txt", 'r') as f:
     data = f.read().splitlines()
     for line in data:
-        report = line.split()
-        report = [int(num) for num in report]
-        if test_consistency(diffs(report), 0, 1) or test_consistency(diffs(report), 0, -1):
+        report = [int(num) for num in line.split()]
+        if test_consistency(report, diffs(report), 0, 1) or test_consistency(report, diffs(report), 0, -1):
             safe += 1
+            print(diffs(report), " success")
+        else:
+            print(diffs(report), " fail")
 
 
 print("Safe: " + str(safe))
