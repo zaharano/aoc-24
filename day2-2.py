@@ -1,33 +1,38 @@
 safe = 0
-TOLERANCE = 1
+# TOLERANCE = 1
+# was close with doing this the elegant way but just way too much easier to do it the brute
 
-def diffs(r):
+def get_diffs(r):
     if len(r) < 2:
         return []
-    return [r[1] - r[0]] + diffs(r[1:])
+    return [r[1] - r[0]] + get_diffs(r[1:])
 
-def test_consistency(report, diffs, fails, dir):
+def test(diffs, dir):
     if diffs == []:
         return True
     if diffs[0] * dir <= 0 or diffs[0] * dir > 3:
-        fails += 1
-        if fails > TOLERANCE:
-            return False
-        else: 
-            return test_consistency(report, diffs[1:], fails, dir)
+        return False
     else:
-        return test_consistency(report, diffs[1:], fails, dir)
+        return test(diffs[1:], dir)
 
 
-with open("day2data-test.txt", 'r') as f:
+with open("day2data.txt", 'r') as f:
     data = f.read().splitlines()
     for line in data:
         report = [int(num) for num in line.split()]
-        if test_consistency(report, diffs(report), 0, 1) or test_consistency(report, diffs(report), 0, -1):
+        if len(report) <= 0:
+            continue
+        diffs = get_diffs(report)
+        print(diffs)
+        if test(diffs, 1) or test(diffs, -1):
             safe += 1
-            print(diffs(report), " success")
-        else:
-            print(diffs(report), " fail")
-
-
+            continue
+        for i in range(len(report)):
+            damp_report = report[:i] + report[i+1:]
+            diffs = get_diffs(damp_report)
+            if test(diffs, 1) or test(diffs, -1):
+                safe += 1
+                break
+            
+        
 print("Safe: " + str(safe))
