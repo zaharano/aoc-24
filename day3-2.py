@@ -12,7 +12,6 @@ with open("day3data.txt", 'r') as f:
   
   while True:
     search = re.search("|".join([MUL_EXP, DO_EXP, DO_NOT_EXP]), data)
-    print(search)
     if search is None:
       break
     if search.group().startswith('mul') and enabled:
@@ -21,10 +20,8 @@ with open("day3data.txt", 'r') as f:
       val = int(s[0]) * int(s[1])
       total += val
     elif search.group().startswith('don'):
-      print('don\'t')
       enabled = False
     elif search.group().startswith('do'):
-      print('do')
       enabled = True
 
     data = data[search.end():]
