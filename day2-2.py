@@ -23,7 +23,6 @@ with open("day2data.txt", 'r') as f:
         if len(report) <= 0:
             continue
         diffs = get_diffs(report)
-        print(diffs)
         if test(diffs, 1) or test(diffs, -1):
             safe += 1
             continue
