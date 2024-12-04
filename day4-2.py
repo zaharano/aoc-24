@@ -25,12 +25,10 @@ def check_space(x, y):
   if x > 0 and x < w - 1 and y > 0 and y < h - 1:
     return True
 
-# ugh
+# the range is comically useless here oh well
 def check_MAS(x, y):
   for i in [-1, 1]:
     for j in [-1, 1]:
-      if i == 0 and j == 0:
-        continue
       if p[x + i][y + j] == "M":
         if p[x - i][y - j] == "S":
           if p[x + i][y - j] == "M":
