@@ -1,5 +1,6 @@
 p = []
 
+# just realized that because of how strings work in python, I don't need lists. oh well.
 with open("day4data.txt", 'r') as f:
     data = f.read().splitlines()
     for line in data:
@@ -13,13 +14,6 @@ h = len(p)
 
 # reverse the x and y of the matrix to fit x, y coordinates
 p = list(map(list, zip(*p)))
-
-def check_bounds(x, y):
-  if x < 0 or x >= w:
-    return False
-  if y < 0 or y >= h:
-    return False
-  return True
 
 def check_space(x, y):
   if x > 0 and x < w - 1 and y > 0 and y < h - 1:
